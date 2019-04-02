@@ -5,12 +5,23 @@ import numpy as np
 import random
 from dicgen import *
 
+'''
 # Decision function.
 def h(w, x):
   dot = sum(pair[0] * pair[1] for pair in zip(w, x))
   if dot >= 0:
     return 1
   else:
+    return 0
+'''
+# Decision function.
+def h(w, x):
+  dot = sum(pair[0] * pair[1] for pair in zip(w, x))
+  if dot >= 0.5:
+    return 1
+  elif dot >= -0.5: # Between -0.5 to 0.5.
+    return 0.5
+  else:             # Below -0.5
     return 0
 
 def calculateAccuracy(model, valuesList, labelList):
@@ -39,7 +50,14 @@ for tweet in tweets:
   elementList.append(sentcal)
   i += 1
   if (i == 20): # Already assigned 20 sentcals to a user.
-    label = random.randint(0, 1) # Randomly generates an ALRIGHT label.
+    #label = random.randint(0, 1) # Randomly generates an ALRIGHT label.
+    label = random.uniform(0, 1)
+    if label >= 0.75:
+      label = 1
+    elif label >= 0.25:
+      label = 0.5
+    else:
+      label = 0
     labelList.append(label)
     tempList = list(elementList)
     userList.append(tempList)
